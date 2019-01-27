@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCGSA.Android", "BCGSA\BCGS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCGSA", "BCGSA\BCGSA\BCGSA.csproj", "{1E0FC910-676E-4C6C-8B07-039591F8E13B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCGSA.Lib", "BCGSA.Lib\BCGSA.Lib.csproj", "{55FDBDEB-913E-43AC-8BDE-24FF18242308}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{1E0FC910-676E-4C6C-8B07-039591F8E13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E0FC910-676E-4C6C-8B07-039591F8E13B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E0FC910-676E-4C6C-8B07-039591F8E13B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{55FDBDEB-913E-43AC-8BDE-24FF18242308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55FDBDEB-913E-43AC-8BDE-24FF18242308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55FDBDEB-913E-43AC-8BDE-24FF18242308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55FDBDEB-913E-43AC-8BDE-24FF18242308}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

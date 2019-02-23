@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Essentials;
+using Plugin.BluetoothLE;
+using System.Threading;
 namespace BCGSA
 {
     public partial class MainPage : ContentPage
@@ -12,8 +14,14 @@ namespace BCGSA
         public MainPage()
         {
             InitializeComponent();
-            Accelerometer.Start(SensorSpeed.Game);
-            Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
+            if (CrossBleAdapter.Current.CanControlAdapterState())
+                CrossBleAdapter.Current.SetAdapterState(true);
+            var scanner = CrossBleAdapter.Current.ScanInterval(TimeSpan.FromSeconds(15),TimeSpan.FromSeconds(5)).Subscribe(scanResult =>
+            {
+                lbl.Text = $"{scanResult.Device.Name}:{scanResult.Device.Uuid}:{scanResult.Rssi}";
+            });
+            //Thread.Sleep(5000);
+            //scanner.Dispose();
         }
 
         private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)

@@ -16,19 +16,15 @@ namespace BCGSA
         public MainPage()
         {
             InitializeComponent();
-            if (CrossBleAdapter.Current.CanControlAdapterState())
-                CrossBleAdapter.Current.SetAdapterState(true);
-            var scanner = CrossBleAdapter.Current.ScanInterval(TimeSpan.FromSeconds(15),TimeSpan.FromSeconds(5)).Subscribe(scanResult =>
-            {
-                lbl.Text = $"{scanResult.Device.Name}:{scanResult.Device.Uuid}:{scanResult.Rssi}";
-            });
+            //if (CrossBleAdapter.Current.CanControlAdapterState())
+            //    CrossBleAdapter.Current.SetAdapterState(true);
+            //var scanner = CrossBleAdapter.Current.ScanInterval(TimeSpan.FromSeconds(15),TimeSpan.FromSeconds(5)).Subscribe(scanResult =>
+            //{
+            //    lbl.Text = $"{scanResult.Device.Name}:{scanResult.Device.Uuid}:{scanResult.Rssi}";
+            //});
+            lbl.Text = $"{ConfigurationManager.AppSettings["config.text"]}";
             //Thread.Sleep(5000);
             //scanner.Dispose();
-        }
-
-        public async Task ConfigDemo()
-        {
-            var answer = await DisplayAlert("Question?", $"Do you see this = \"{ConfigurationManager.AppSettings["config.text"]}\"", "Yes", "No");
         }
 
         private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)

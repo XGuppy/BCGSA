@@ -11,9 +11,8 @@ namespace BCGSA
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
             ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()

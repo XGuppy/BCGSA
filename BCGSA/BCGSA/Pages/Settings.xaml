@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BCGSA.Settings">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Настройки"
+                VerticalOptions="StartAndExpand"/>
+            <!--Режим работы сенсоров-->
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Текущий режим работы:"/>
+                <Picker>
+                    <Picker.Items>
+                        <x:String>UI</x:String>
+                        <x:String>Normal</x:String>
+                        <x:String>Game</x:String>
+                        <x:String>Fastest</x:String>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+            <!--Инверсия по X-->
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Инверсия по X:"/>
+                <Switch IsToggled="true" Toggled= "Switch_Toggled" />
+            </StackLayout>
+            <!--Инверсия по Y-->
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Инверсия по Y:"/>
+                <Switch IsToggled="true" Toggled= "Switch_Toggled" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

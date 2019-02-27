@@ -7,6 +7,8 @@ using Xamarin.Forms;
 using Xamarin.Essentials;
 using Plugin.BluetoothLE;
 using System.Threading;
+using PCLAppConfig;
+
 namespace BCGSA
 {
     public partial class MainPage : ContentPage
@@ -22,6 +24,11 @@ namespace BCGSA
             });
             //Thread.Sleep(5000);
             //scanner.Dispose();
+        }
+
+        public async Task ConfigDemo()
+        {
+            var answer = await DisplayAlert("Question?", $"Do you see this = \"{ConfigurationManager.AppSettings["config.text"]}\"", "Yes", "No");
         }
 
         private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCLAppConfig;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,6 +13,7 @@ namespace BCGSA
             InitializeComponent();
 
             MainPage = new MainPage();
+            ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
         }
 
         protected override void OnStart()

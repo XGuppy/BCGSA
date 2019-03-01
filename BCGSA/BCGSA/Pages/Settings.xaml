@@ -4,12 +4,11 @@
              x:Class="BCGSA.Settings">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Настройки"
-                VerticalOptions="StartAndExpand"/>
+            <Label Text="Настройки"/>
             <!--Режим работы сенсоров-->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Текущий режим работы:"/>
-                <Picker>
+                <Picker SelectedItem="1">
                     <Picker.Items>
                         <x:String>UI</x:String>
                         <x:String>Normal</x:String>

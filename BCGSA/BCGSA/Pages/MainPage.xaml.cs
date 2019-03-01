@@ -7,7 +7,6 @@ using Xamarin.Forms;
 using Xamarin.Essentials;
 using Plugin.BluetoothLE;
 using System.Threading;
-using PCLAppConfig;
 
 namespace BCGSA
 {
@@ -22,7 +21,6 @@ namespace BCGSA
             //{
             //    lbl.Text = $"{scanResult.Device.Name}:{scanResult.Device.Uuid}:{scanResult.Rssi}";
             //});
-            lbl.Text = $"{ConfigurationManager.AppSettings["config.text"]}";
             //Thread.Sleep(5000);
             //scanner.Dispose();
         }

@@ -22,7 +22,6 @@ namespace BCGSA
             //{
             //    lbl.Text = $"{scanResult.Device.Name}:{scanResult.Device.Uuid}:{scanResult.Rssi}";
             //});
-            lbl.Text = $"{ConfigurationManager.AppSettings["config.text"]}";
             //Thread.Sleep(5000);
             //scanner.Dispose();
         }
@@ -30,7 +29,22 @@ namespace BCGSA
         private void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
             var data = e.Reading;
-            lbl.Text = $"X:{data.Acceleration.X} Y:{data.Acceleration.Y} Z:{data.Acceleration.Z}";
+        }
+
+        private void ListDevicesChanged(object sender, EventArgs e)
+        {
+            // use list of devices here
+        }
+
+        private void SettingsItemClicked(object sender, EventArgs e)
+        {
+            // go to settings
+            Navigation.PushAsync(new Settings());
+        }
+
+        private void ExitItemClicked(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
         }
     }
 }

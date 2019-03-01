@@ -4,7 +4,6 @@ namespace BCGSA.ConfigMaster
 {
     internal sealed class ConfManager
     {
-        private static readonly string StandartConfiguration = "{\"connectMode\": \"Game\", \"inversX\": \"false\", \"inversY\": \"false\"}";
         private static readonly string ConfigFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "conf.json");
         private static readonly ConfManager Instance = new ConfManager();
 
@@ -23,8 +22,8 @@ namespace BCGSA.ConfigMaster
             {
                 using (var sw = new StreamWriter(ConfigFileName))
                 {
-                    _settings = Settings.FromJson(StandartConfiguration);
-                    sw.Write(StandartConfiguration);
+                    _settings = Settings.FromJson(Settings.GetDefault());
+                    sw.Write(Settings.GetDefault());
                 }
             }
         }
@@ -33,7 +32,7 @@ namespace BCGSA.ConfigMaster
 
         public void ResetToDefault()
         {
-            _settings = Settings.FromJson(StandartConfiguration);
+            _settings = Settings.FromJson(Settings.GetDefault());
         }
 
         public void SaveConfiguration()

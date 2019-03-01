@@ -16,5 +16,6 @@ namespace BCGSA.ConfigMaster
         public bool InversY { get; set; }
 
         public static Settings FromJson(string json) => JsonConvert.DeserializeObject<Settings>(json, Serialize.Settings);
+        public static string GetDefault() => new Settings { ConnectMode = "Game", InversX = false, InversY = false }.ToJson();
     }
 }

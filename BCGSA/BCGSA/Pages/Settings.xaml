@@ -2,13 +2,32 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BCGSA.Settings">
+    <ContentPage.Resources>
+        <StyleSheet>
+            <![CDATA[
+            .label {
+                font-size: 20;
+            }
+            
+            * {
+                color: black;
+            }
+            
+            .select_state {
+                min-width: 80;
+                text-align: center;
+            }
+            ]]>
+        </StyleSheet>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Настройки"/>
+        <StackLayout HorizontalOptions="Center">
+            <Label Text="Настройки" StyleClass="label"/>
             <!--Режим работы сенсоров-->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Текущий режим работы:"/>
-                <Picker SelectedItem="1">
+                <Picker StyleClass="select_state" Title="Select..." WidthRequest="100">
                     <Picker.Items>
                         <x:String>UI</x:String>
                         <x:String>Normal</x:String>
@@ -20,12 +39,12 @@
             <!--Инверсия по X-->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Инверсия по X:"/>
-                <Switch IsToggled="true" Toggled= "Switch_Toggled" />
+                <Switch IsToggled="true" Toggled= "Switch_Toggled" OnColor="Aquamarine"/>
             </StackLayout>
             <!--Инверсия по Y-->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Инверсия по Y:"/>
-                <Switch IsToggled="true" Toggled= "Switch_Toggled" />
+                <Switch IsToggled="true" Toggled= "Switch_Toggled" OnColor="Aquamarine"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

@@ -14,7 +14,7 @@ namespace BCGSA
     {
         public MainPage()
         {
-            InitializeComponent();
+            InitializeComponent(); 
             //if (CrossBleAdapter.Current.CanControlAdapterState())
             //    CrossBleAdapter.Current.SetAdapterState(true);
             //var scanner = CrossBleAdapter.Current.ScanInterval(TimeSpan.FromSeconds(15),TimeSpan.FromSeconds(5)).Subscribe(scanResult =>

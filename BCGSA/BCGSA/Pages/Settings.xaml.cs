@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Configuration;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
 namespace BCGSA
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -15,8 +14,6 @@ namespace BCGSA
 		public Settings ()
 		{
 			InitializeComponent ();
-            
-            
         }
 
         private void Switch_Toggled(object sender, ToggledEventArgs e)

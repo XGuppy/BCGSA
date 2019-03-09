@@ -1,13 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
+using Xamarin.Essentials;
 using System.IO;
 namespace BCGSA.ConfigMaster
 {
     public sealed class ConfManager: INotifyPropertyChanged
     {
         private static readonly string ConfigFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "conf.json");
-        private static readonly ConfManager Instance = new ConfManager();
+        private List<string> _listModes = Enum.GetNames(typeof(SensorSpeed)).ToList();
 
+        private static readonly ConfManager Instance = new ConfManager();
         private Settings _settings;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -45,9 +49,24 @@ namespace BCGSA.ConfigMaster
         {
             using (var sw = new StreamWriter(ConfigFileName))
             {
-                sw.Write(_settings.ToString());
+                sw.Write(_settings.ToJson());
             }
         }
+
+        public List<string> GetModes
+        {
+            get =>
+             _listModes;
+            set
+            {
+                if (_listModes != value)
+                {
+                    _listModes = value;
+                    OnPropertyChanged(nameof(GetModes));
+                }
+            }
+        }
+
 
         public string ConnectMod
         {
@@ -55,6 +74,7 @@ namespace BCGSA.ConfigMaster
             set
             {
                 _settings.ConnectMode = value;
+                SaveConfiguration();
                 OnPropertyChanged(nameof(_settings.ConnectMode));
             }
         }
@@ -65,6 +85,7 @@ namespace BCGSA.ConfigMaster
             set
             {
                 _settings.InversX = value;
+                SaveConfiguration();
                 OnPropertyChanged(nameof(_settings.InversX));
             }
         }
@@ -75,6 +96,7 @@ namespace BCGSA.ConfigMaster
             set
             {
                 _settings.InversY = value;
+                SaveConfiguration();
                 OnPropertyChanged(nameof(_settings.InversY));
             }
         }

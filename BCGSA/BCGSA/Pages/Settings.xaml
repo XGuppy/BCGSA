@@ -28,14 +28,7 @@
             <!--Режим работы сенсоров-->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Текущий режим работы:"/>
-                <Picker StyleClass="select_state" Title="{Binding ConnectMod , Source={x:Static local:ConfManager.GetManager}}" WidthRequest="100">
-                    <Picker.Items>
-                        <x:String>UI</x:String>
-                        <x:String>Normal</x:String>
-                        <x:String>Game</x:String>
-                        <x:String>Fastest</x:String>
-                    </Picker.Items>
-                </Picker>
+                <Picker StyleClass="select_state" ItemsSource="{Binding GetModes , Source={x:Static local:ConfManager.GetManager}}" SelectedItem="{Binding ConnectMod , Source={x:Static local:ConfManager.GetManager}}" WidthRequest="100" />
             </StackLayout>
             <!--Инверсия по X-->
             <StackLayout Orientation="Horizontal">

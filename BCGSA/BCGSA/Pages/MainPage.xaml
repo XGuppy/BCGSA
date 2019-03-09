@@ -37,13 +37,8 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        <Picker x:Name="ListDevices" SelectedIndexChanged="ListDevicesChanged" StyleClass="selectdevice" Title="Выбор устройства" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
-            <Picker.Items>
-                <x:String>C#</x:String>
-                <x:String>C/C++</x:String>
-                <x:String>JavaScript</x:String>
-                <x:String>PHP</x:String>
-            </Picker.Items>
+        <Picker x:Name="ListDevices" ItemsSource="{Binding Devices}" SelectedItem="{Binding Current}" SelectedIndexChanged="ListDevicesChanged" StyleClass="selectdevice" Title="Выбор устройства" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" >
+            
         </Picker>
 
 

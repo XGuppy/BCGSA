@@ -8,19 +8,35 @@ using Xamarin.Essentials;
 using Plugin.BluetoothLE;
 using System.Threading;
 using BCGSA.ConfigMaster;
+using System.ComponentModel;
+
 namespace BCGSA
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage, INotifyPropertyChanged
     {
-        private const int UpdateDeviceTime = 10;
-        public List<IDevice> Devices;
+        private IDevice _current;
+        private List<IDevice> _devices;
 
-        private IDevice Current;
+        public List<IDevice> Devices {
+            get => _devices;
+            set
+            {
+                _devices = value;
+                OnPropertyChanged(nameof(_devices));
+            }
+        }
+        public IDevice Current {
+            get => _current;
+            set
+            {
+                _current = value;
+                OnPropertyChanged(nameof(_current));
+            }
+        }
 
         public MainPage()
         {
             InitializeComponent();
-            var config = ConfManager.GetManager;
 
             if (CrossBleAdapter.Current.CanControlAdapterState())
                 CrossBleAdapter.Current.SetAdapterState(true);
@@ -28,13 +44,19 @@ namespace BCGSA
             var scanner = CrossBleAdapter.Current.ScanInterval(TimeSpan.FromSeconds(15),TimeSpan.FromSeconds(5)).Subscribe(scanResult =>
             {
                 if (!Devices.Contains(scanResult.Device))
+                {
                     Devices.Add(scanResult.Device);
+                }
 
                 foreach (var device in Devices)
+                {
                     if (device.Status == ConnectionStatus.Disconnected)
+                    {
                         Devices.Remove(device);
+                    }
+                }
             });
-            
+
             scanner.Dispose();
         }
 

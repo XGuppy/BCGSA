@@ -58,6 +58,7 @@ namespace BCGSA.Android
         /// <returns></returns>
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
+            menu.Clear();
             MenuInflater.Inflate(Resource.Menu.app_menu, menu);
             return true;
         }

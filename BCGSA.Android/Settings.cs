@@ -9,11 +9,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Support.V7.App;
 
 namespace BCGSA.Android
 {
     [Activity(Label = "@string/action_settings", Theme = "@style/AppTheme")]
-    class Settings: Activity
+    class Settings: AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {

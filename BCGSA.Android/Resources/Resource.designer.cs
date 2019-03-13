@@ -2333,6 +2333,12 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f080034
 			public const int FUNCTION = 2131230772;
 			
+			// aapt resource value: 0x7f0800af
+			public const int InversX = 2131230895;
+			
+			// aapt resource value: 0x7f0800b2
+			public const int InversY = 2131230898;
+			
 			// aapt resource value: 0x7f080035
 			public const int META = 2131230773;
 			
@@ -2341,6 +2347,12 @@ namespace BCGSA.Android
 			
 			// aapt resource value: 0x7f080037
 			public const int SYM = 2131230775;
+			
+			// aapt resource value: 0x7f0800b1
+			public const int XSwitch = 2131230897;
+			
+			// aapt resource value: 0x7f0800b4
+			public const int YSwitch = 2131230900;
 			
 			// aapt resource value: 0x7f08009c
 			public const int action0 = 2131230876;
@@ -2561,6 +2573,12 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f0800a6
 			public const int info = 2131230886;
 			
+			// aapt resource value: 0x7f0800b0
+			public const int inversXLabel = 2131230896;
+			
+			// aapt resource value: 0x7f0800b3
+			public const int inversYLabel = 2131230899;
+			
 			// aapt resource value: 0x7f080059
 			public const int italic = 2131230809;
 			
@@ -2585,14 +2603,14 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f080061
 			public const int list_item = 2131230817;
 			
-			// aapt resource value: 0x7f0800ae
-			public const int masked = 2131230894;
+			// aapt resource value: 0x7f0800b7
+			public const int masked = 2131230903;
 			
 			// aapt resource value: 0x7f08009f
 			public const int media_actions = 2131230879;
 			
-			// aapt resource value: 0x7f0800ac
-			public const int message = 2131230892;
+			// aapt resource value: 0x7f0800b5
+			public const int message = 2131230901;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2713,6 +2731,15 @@ namespace BCGSA.Android
 			
 			// aapt resource value: 0x7f08008a
 			public const int select_dialog_listview = 2131230858;
+			
+			// aapt resource value: 0x7f0800ad
+			public const int sensorLabel = 2131230893;
+			
+			// aapt resource value: 0x7f0800ac
+			public const int sensorMode = 2131230892;
+			
+			// aapt resource value: 0x7f0800ae
+			public const int sensorSpinner = 2131230894;
 			
 			// aapt resource value: 0x7f080074
 			public const int shortcut = 2131230836;
@@ -2840,8 +2867,8 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800ad
-			public const int visible = 2131230893;
+			// aapt resource value: 0x7f0800b6
+			public const int visible = 2131230902;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;
@@ -3083,10 +3110,13 @@ namespace BCGSA.Android
 			public const int select_dialog_singlechoice_material = 2130968634;
 			
 			// aapt resource value: 0x7f04003b
-			public const int support_simple_spinner_dropdown_item = 2130968635;
+			public const int settings = 2130968635;
 			
 			// aapt resource value: 0x7f04003c
-			public const int tooltip = 2130968636;
+			public const int support_simple_spinner_dropdown_item = 2130968636;
+			
+			// aapt resource value: 0x7f04003d
+			public const int tooltip = 2130968637;
 			
 			static Layout()
 			{

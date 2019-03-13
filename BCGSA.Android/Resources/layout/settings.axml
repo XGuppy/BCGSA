@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/sensorMode">
+		<TextView
+			android:text="Sensor Mode:"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:id="@+id/sensorLabel" />
+		<Spinner
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:id="@+id/sensorSpinner" />
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/InversX">
+		<TextView
+			android:text="X Inversion:"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:id="@+id/inversXLabel" />
+		<Switch
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:id="@+id/XSwitch"
+			android:autoSizeTextType="uniform"
+			android:textOff="Off"
+			android:textOn="On" />
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/InversY" >
+		<TextView
+			android:text="Y Inversion:"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:id="@+id/inversYLabel" />
+		<Switch
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:id="@+id/YSwitch"
+			android:textOff="Off"
+			android:textOn="On"
+			android:textIsSelectable="false" />
+	</LinearLayout>
+</LinearLayout>

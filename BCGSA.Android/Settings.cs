@@ -41,8 +41,18 @@ namespace BCGSA.Android
             switchInversY.Checked = confManager.InversY;
 
             Spinner spinnerMode = FindViewById<Spinner>(Resource.Id.sensorSpinner);
-            
-            
+            spinnerMode.ItemSelected += (o, e) =>
+            {
+                confManager.ConnectMod = (string)(o as Spinner).SelectedItem;
+                confManager.SaveConfiguration();
+            };
+            var adapter = new ArrayAdapter<string>(this,
+                global::Android.Resource.Layout.SimpleSpinnerItem, ConfManager.GetModes);
+
+            adapter.SetDropDownViewResource(global::Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinnerMode.Adapter = adapter;
+            spinnerMode.SetSelection(adapter.GetPosition(confManager.ConnectMod));
+
         }
     }
 }

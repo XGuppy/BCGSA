@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Widget;
 using System.Collections.Generic;
 using Android.Views;
+using Android.Content;
 
 namespace BCGSA.Android
 {
@@ -66,7 +67,8 @@ namespace BCGSA.Android
             switch (item.ItemId)
             {
                 case Resource.Id.action_settings:
-                    //do something
+                    Intent intent = new Intent(this, typeof(Settings));
+                    StartActivity(intent);
                     return true;
                 case Resource.Id.action_exit:
                     CloseApplication();

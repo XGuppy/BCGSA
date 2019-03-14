@@ -18,7 +18,7 @@ namespace BCGSA.Android
         /// string - name of device
         /// int -- id of device
         /// </summary>
-        private List<KeyValuePair<string, int>> devicesData = new List<KeyValuePair<string, int>>();
+        private readonly List<KeyValuePair<string, int>> devicesData = new List<KeyValuePair<string, int>>();
 
         /// <summary>
         /// Initialize list of devices
@@ -26,7 +26,7 @@ namespace BCGSA.Android
         private void InitListOfDevices()
         {
             // temporary data
-            devicesData.Add(new KeyValuePair<string, int>("Hello", 1999));
+            devicesData?.Add(new KeyValuePair<string, int>("Hello", 1999));
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -35,7 +35,7 @@ namespace BCGSA.Android
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-            Spinner spinner = FindViewById<Spinner>(Resource.Id.select_device);
+            var spinner = FindViewById<Spinner>(Resource.Id.select_device);
 
             InitListOfDevices();
             var devicesNames = new List<string>();
@@ -68,7 +68,7 @@ namespace BCGSA.Android
             switch (item.ItemId)
             {
                 case Resource.Id.action_settings:
-                    Intent intent = new Intent(this, typeof(Settings));
+                    var intent = new Intent(this, typeof(Settings));
                     StartActivity(intent);
                     return true;
                 case Resource.Id.action_exit:
@@ -78,7 +78,7 @@ namespace BCGSA.Android
             return base.OnOptionsItemSelected(item);
         }
 
-        public void CloseApplication()
+        private void CloseApplication()
         {
             var activity = (Activity)this;
             activity.FinishAffinity();

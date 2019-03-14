@@ -22,25 +22,25 @@ namespace BCGSA.Android
 
             SetContentView(Resource.Layout.settings);
 
-            ConfManager confManager = ConfManager.GetManager;
+            var confManager = ConfManager.GetManager;
 
-            Switch switchInversX = FindViewById<Switch>(Resource.Id.XSwitch);
+            var switchInversX = FindViewById<Switch>(Resource.Id.XSwitch);
 
             switchInversX.CheckedChange += (o, e) =>
-                confManager.InversX = (o as Switch).Checked;
+                confManager.InversX = ((Switch) o).Checked;
 
-            Switch switchInversY = FindViewById<Switch>(Resource.Id.YSwitch);
+            var switchInversY = FindViewById<Switch>(Resource.Id.YSwitch);
 
             switchInversY.CheckedChange += (o, e) =>
-                confManager.InversY = (o as Switch).Checked;
+                confManager.InversY = ((Switch) o).Checked;
 
             switchInversX.Checked = confManager.InversX;
             switchInversY.Checked = confManager.InversY;
 
-            Spinner spinnerMode = FindViewById<Spinner>(Resource.Id.sensorSpinner);
+            var spinnerMode = FindViewById<Spinner>(Resource.Id.sensorSpinner);
 
             spinnerMode.ItemSelected += (o, e) =>
-                confManager.ConnectMod = (string)(o as Spinner).SelectedItem;
+                confManager.ConnectMod = (string)(o as Spinner)?.SelectedItem;
 
             var adapter = new ArrayAdapter<string>(this,
                 global::Android.Resource.Layout.SimpleSpinnerItem, ConfManager.GetModes);

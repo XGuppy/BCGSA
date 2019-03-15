@@ -9,6 +9,9 @@ using Android.Views;
 using Android.Content;
 using System.Threading.Tasks;
 using System.Linq;
+using Android.Support.V4.Content;
+using Android.Support.V4.App;
+using Android.Content.PM;
 
 namespace BCGSA.Android
 {
@@ -39,11 +42,38 @@ namespace BCGSA.Android
             });
         }
 
+        private void CheckPermissions()
+        {
+            const int locationPermissionsRequestCode = 1000;
+
+            var locationPermissions = new[]
+            {
+                global::Android.Manifest.Permission.AccessCoarseLocation,
+                global::Android.Manifest.Permission.AccessFineLocation
+            };
+
+            // check if the app has permission to access coarse location
+            var coarseLocationPermissionGranted =
+                ContextCompat.CheckSelfPermission(this, global::Android.Manifest.Permission.AccessCoarseLocation);
+
+            // check if the app has permission to access fine location
+            var fineLocationPermissionGranted =
+                ContextCompat.CheckSelfPermission(this, global::Android.Manifest.Permission.AccessFineLocation);
+
+            // if either is denied permission, request permission from the user
+            if (coarseLocationPermissionGranted == Permission.Denied ||
+                fineLocationPermissionGranted == Permission.Denied)
+            {
+                ActivityCompat.RequestPermissions(this, locationPermissions, locationPermissionsRequestCode);
+            }
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+            CheckPermissions();
 
             var spinner = FindViewById<Spinner>(Resource.Id.select_device);
             SelectDevice(spinner);

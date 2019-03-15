@@ -18,6 +18,8 @@ namespace BCGSA.Android
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        private BluetoothSender _bluetoothSender = new BluetoothSender();
+
         public async void SelectDevice(Spinner spinner)
         {
             List<string> devicesNames = new List<string>();
@@ -26,7 +28,7 @@ namespace BCGSA.Android
             {
                 while (!spinner.Selected)
                 {
-                    foreach (var item in BluetoothSender.Scan())
+                    foreach (var item in _bluetoothSender.Scan())
                     {
                         devicesNames.Add(item.Name);
                     }
@@ -82,7 +84,7 @@ namespace BCGSA.Android
 
                 var name = (string)(o as Spinner).SelectedItem;
 
-                var device = (from devs in BluetoothSender.Scan()
+                var device = (from devs in _bluetoothSender.Scan()
                               where devs.Name == name
                               select devs).FirstOrDefault();
 
@@ -91,9 +93,9 @@ namespace BCGSA.Android
                     throw new Exception("Device Not Found");
                 }
 
-                BluetoothSender.Connect(device);
+                _bluetoothSender.Connect(device);
 
-                DataSender.Sended += BluetoothSender.SendData;
+                DataSender.Sended += _bluetoothSender.SendData;
             };
         }
 

@@ -15,18 +15,19 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BCGSA.Android
 {
-    static class BluetoothSender
+    class BluetoothSender: BroadcastReceiver
     {
-        private static BluetoothAdapter _adapter;
-        private static BluetoothSocket _socket;
+        private BluetoothAdapter _adapter;
+        private BluetoothSocket _socket;
+        private List<BluetoothDevice> _btDevices;
         private static BinaryFormatter _formatter = new BinaryFormatter();
 
-        public static bool IsConnected
+        public bool IsConnected
         {
             get => _socket.IsConnected;
         }
 
-        static BluetoothSender()
+        public BluetoothSender()
         {
             _adapter = BluetoothAdapter.DefaultAdapter;
             if (_adapter == null)
@@ -39,16 +40,21 @@ namespace BCGSA.Android
             }
         }
 
-        public static List<BluetoothDevice> Scan() => _adapter.BondedDevices.ToList();
+        public List<BluetoothDevice> Scan() => _btDevices;
 
-        public static async void Connect(BluetoothDevice device)
+        public async void Connect(BluetoothDevice device)
         {
             _socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString(Guid.NewGuid().ToString()));
             await _socket.ConnectAsync();
         }
 
+        public void CreateBond(BluetoothDevice device) =>
+            device.CreateBond();
 
-        public static void SendData(AccelerometerEntity accelerometerEntity)
+        public bool IsBonded(BluetoothDevice device) =>
+            device.BondState == Bond.Bonded ? true : false;
+
+        public void SendData(AccelerometerEntity accelerometerEntity)
         {
             if (!IsConnected)
             {
@@ -60,6 +66,23 @@ namespace BCGSA.Android
                 {
                     _formatter.Serialize(binaryDataStream, accelerometerEntity);
                 }
+            }
+        }
+
+        public override void OnReceive(Context context, Intent intent)
+        {
+            var action = intent.Action;
+
+            if (action != BluetoothDevice.ActionFound)
+            {
+                return;
+            }
+
+            var device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
+            
+            if (device.BondState != Bond.Bonded)
+            {
+                _btDevices.Add(device);
             }
         }
     }

@@ -50,9 +50,16 @@ namespace BCGSA.Android
 
         public static void SendData(AccelerometerEntity accelerometerEntity)
         {
-            using (var binaryDataStream = _socket.OutputStream)
+            if (!IsConnected)
             {
-                _formatter.Serialize(binaryDataStream, accelerometerEntity);
+                throw new Exception("Device is not connected");
+            }
+            else
+            {
+                using (var binaryDataStream = _socket.OutputStream)
+                {
+                    _formatter.Serialize(binaryDataStream, accelerometerEntity);
+                }
             }
         }
     }

@@ -7,26 +7,36 @@ using Android.Widget;
 using System.Collections.Generic;
 using Android.Views;
 using Android.Content;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace BCGSA.Android
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        /// <summary>
-        /// Device Data 
-        /// string - name of device
-        /// int -- id of device
-        /// </summary>
-        private readonly List<KeyValuePair<string, int>> devicesData = new List<KeyValuePair<string, int>>();
-
-        /// <summary>
-        /// Initialize list of devices
-        /// </summary>
-        private void InitListOfDevices()
+        public async void SelectDevice(Spinner spinner)
         {
-            // temporary data
-            devicesData?.Add(new KeyValuePair<string, int>("Hello", 1999));
+            List<string> devicesNames = new List<string>();
+
+            await Task.Run(() => 
+            {
+                while (!spinner.Selected)
+                {
+                    foreach (var item in BluetoothSender.Scan())
+                    {
+                        devicesNames.Add(item.Name);
+                    }
+
+                    var adapter = new ArrayAdapter<string>(this,
+                        global::Android.Resource.Layout.SimpleSpinnerItem, devicesNames);
+
+                    adapter.SetDropDownViewResource(global::Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                    spinner.Adapter = adapter;
+
+                    devicesNames.Clear();
+                }
+            });
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -36,19 +46,25 @@ namespace BCGSA.Android
             SetContentView(Resource.Layout.activity_main);
 
             var spinner = FindViewById<Spinner>(Resource.Id.select_device);
+            SelectDevice(spinner);
 
-            InitListOfDevices();
-            var devicesNames = new List<string>();
-            foreach (var item in devicesData)
-            {
-                devicesNames.Add(item.Key);
-            }
+            spinner.ItemSelected += (o, e) => {
 
-            var adapter = new ArrayAdapter<string>(this,
-                global::Android.Resource.Layout.SimpleSpinnerItem, devicesNames);
+                var name = (string)(o as Spinner).SelectedItem;
 
-            adapter.SetDropDownViewResource(global::Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            spinner.Adapter = adapter;
+                var device = (from devs in BluetoothSender.Scan()
+                              where devs.Name == name
+                              select devs).FirstOrDefault();
+
+                if (device == null)
+                {
+                    throw new Exception("Device Not Found");
+                }
+
+                BluetoothSender.Connect(device);
+
+                DataSender.Sended += BluetoothSender.SendData;
+            };
         }
 
         /// <summary>

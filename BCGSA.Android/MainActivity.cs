@@ -13,7 +13,7 @@ using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Bluetooth;
-
+using System.Threading;
 namespace BCGSA.Android
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
@@ -21,30 +21,7 @@ namespace BCGSA.Android
     {
         private BluetoothSender _bluetoothSender = new BluetoothSender();
 
-        public async void SelectDevice(Spinner spinner)
-        {
-            List<string> devicesNames = new List<string>();
-
-            await Task.Run(() => 
-            {
-                while (!spinner.Selected)
-                {
-                    foreach (var item in _bluetoothSender.Scan())
-                    {
-                        devicesNames.Add(item.Name);
-                    }
-
-                    var adapter = new ArrayAdapter<string>(this,
-                        global::Android.Resource.Layout.SimpleSpinnerItem, devicesNames);
-
-                    adapter.SetDropDownViewResource(global::Android.Resource.Layout.SimpleSpinnerDropDownItem);
-                    spinner.Adapter = adapter;
-
-                    devicesNames.Clear();
-                }
-            });
-        }
-
+        
         private void CheckPermissions()
         {
             const int locationPermissionsRequestCode = 1000;
@@ -81,7 +58,10 @@ namespace BCGSA.Android
             RegisterReceiver(_bluetoothSender, new IntentFilter(BluetoothDevice.ActionFound));
 
             var spinner = FindViewById<Spinner>(Resource.Id.select_device);
-            SelectDevice(spinner);
+
+            //Сюда писать инициализатор адаптера
+
+            _bluetoothSender.StartDiscovery();
 
             spinner.ItemSelected += (o, e) => {
 
@@ -99,7 +79,9 @@ namespace BCGSA.Android
                 _bluetoothSender.Connect(device);
 
                 DataSender.Sended += _bluetoothSender.SendData;
-                _bluetoothSender.StartDiscovery();
+                
+
+                
             };
             
         }

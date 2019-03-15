@@ -19,7 +19,7 @@ namespace BCGSA.Android
     {
         private BluetoothAdapter _adapter;
         private BluetoothSocket _socket;
-        private List<BluetoothDevice> _btDevices = new List<BluetoothDevice>();
+        private static ArrayAdapter<KeyValuePair<string, string>> _btDevices;
         private static BinaryFormatter _formatter = new BinaryFormatter();
 
         public bool IsConnected
@@ -39,8 +39,6 @@ namespace BCGSA.Android
                     throw new Exception("Bluetooth failed to turn on");
             }
         }
-
-        public List<BluetoothDevice> Scan() => _btDevices;
 
         public async void Connect(BluetoothDevice device)
         {
@@ -74,6 +72,11 @@ namespace BCGSA.Android
             _adapter.StartDiscovery();
         }
 
+        public void InitAdapter(Context ctx, int resourceID)
+        {
+            _btDevices = new ArrayAdapter<KeyValuePair<string, string>>(ctx, resourceID);
+        }
+
         public override void OnReceive(Context context, Intent intent)
         {
             var action = intent.Action;
@@ -87,7 +90,7 @@ namespace BCGSA.Android
             
             if (device.BondState != Bond.Bonded)
             {
-                _btDevices.Add(device);
+                _btDevices.Add(new KeyValuePair<string, string>(device.Name, device.Address));
             }
         }
     }

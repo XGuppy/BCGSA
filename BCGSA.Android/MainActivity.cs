@@ -68,7 +68,10 @@ namespace BCGSA.Android
                 var name = (string)(o as Spinner).SelectedItem;
                 if (_bluetoothSender.ScanResult.ContainsKey(name))
                 {
-                    _bluetoothSender.CreateBond(_bluetoothSender.ScanResult[name]);
+                    while (!_bluetoothSender.IsBonded(_bluetoothSender.ScanResult[name]))
+                    {
+                        _bluetoothSender.CreateBond(_bluetoothSender.ScanResult[name]);
+                    }
                     _bluetoothSender.Connect(_bluetoothSender.ScanResult[name]);
 
                     DataSender.Sended += _bluetoothSender.SendData;

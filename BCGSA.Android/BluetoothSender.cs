@@ -19,7 +19,7 @@ namespace BCGSA.Android
     {
         private BluetoothAdapter _adapter;
         private BluetoothSocket _socket;
-        private List<BluetoothDevice> _btDevices;
+        private List<BluetoothDevice> _btDevices = new List<BluetoothDevice>();
         private static BinaryFormatter _formatter = new BinaryFormatter();
 
         public bool IsConnected
@@ -32,7 +32,7 @@ namespace BCGSA.Android
             _adapter = BluetoothAdapter.DefaultAdapter;
             if (_adapter == null)
                 throw new Exception("No Bluetooth adapter found");
-
+            
             if (!_adapter.IsEnabled)
             {
                 if (!_adapter.Enable())
@@ -67,6 +67,11 @@ namespace BCGSA.Android
                     _formatter.Serialize(binaryDataStream, accelerometerEntity);
                 }
             }
+        }
+
+        public void StartDiscovery()
+        {
+            _adapter.StartDiscovery();
         }
 
         public override void OnReceive(Context context, Intent intent)

@@ -59,7 +59,7 @@ namespace BCGSA.Android
 
             var spinner = FindViewById<Spinner>(Resource.Id.select_device);
 
-            //Сюда писать инициализатор адаптера
+            _bluetoothSender.InitAdapter(this, Resource.Id.select_device);
 
             _bluetoothSender.StartDiscovery();
 
@@ -79,11 +79,7 @@ namespace BCGSA.Android
                 _bluetoothSender.Connect(device);
 
                 DataSender.Sended += _bluetoothSender.SendData;
-                
-
-                
             };
-            
         }
 
         /// <summary>

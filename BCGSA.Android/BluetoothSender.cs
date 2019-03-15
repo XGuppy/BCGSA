@@ -53,8 +53,8 @@ namespace BCGSA.Android
         public void CreateBond(BluetoothDevice device) =>
             device.CreateBond();
 
-        public bool IsBonded(BluetoothDevice device) =>
-            device.BondState == Bond.Bonded ? true : false;
+        public Bond BondState(BluetoothDevice device) =>
+            device.BondState;
 
         public void SendData(AccelerometerEntity accelerometerEntity)
         {

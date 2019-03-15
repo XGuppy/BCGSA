@@ -15,7 +15,7 @@ namespace BCGSA
         /// <summary>
         /// Send an accelerometer data
         /// </summary>
-        public static AccelerometerEntity Data { get; private set; }
+        public static AccelerometerEntity Data { get; private set; } = new AccelerometerEntity(default(Vector3), default(Vector3));
 
         public static void Initialize()
         {

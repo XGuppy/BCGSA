@@ -44,10 +44,11 @@ namespace BCGSA.Android
 
         }
 
-        public async void Connect(BluetoothDevice device)
+        public void Connect(BluetoothDevice device)
         {
-            _socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString(Guid.NewGuid().ToString()));
-            await _socket.ConnectAsync();
+            _socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("4d89187e-476a-11e9-b210-d663bd873d93"));
+            _adapter.CancelDiscovery();
+            _socket.Connect();
         }
 
         public void CreateBond(BluetoothDevice device) =>
@@ -58,16 +59,9 @@ namespace BCGSA.Android
 
         public void SendData(AccelerometerEntity accelerometerEntity)
         {
-            if (!IsConnected)
+            using (var binaryDataStream = _socket.OutputStream)
             {
-                throw new Exception("Device is not connected");
-            }
-            else
-            {
-                using (var binaryDataStream = _socket.OutputStream)
-                {
-                    _formatter.Serialize(binaryDataStream, accelerometerEntity);
-                }
+                _formatter.Serialize(binaryDataStream, accelerometerEntity);
             }
         }
 
@@ -98,15 +92,12 @@ namespace BCGSA.Android
 
             var device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
             
-            if (device.BondState != Bond.Bonded)
-            {
                 if (!ScanResult.ContainsKey(device.Name))
                 {
                     _uiDev.Add(device.Name);
                     var i = _uiDev.Count;
                     ScanResult.Add(device.Name, device);
                 }
-            }
         }
     }
 }

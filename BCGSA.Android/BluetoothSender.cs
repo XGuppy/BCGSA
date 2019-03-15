@@ -12,6 +12,7 @@ using Android.Widget;
 using Android.Bluetooth;
 using Java.Util;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace BCGSA.Android
 {
@@ -59,10 +60,9 @@ namespace BCGSA.Android
 
         public void SendData(AccelerometerEntity accelerometerEntity)
         {
-            using (var binaryDataStream = _socket.OutputStream)
-            {
-                _formatter.Serialize(binaryDataStream, accelerometerEntity);
-            }
+            MemoryStream str = new MemoryStream();
+            _formatter.Serialize(str, accelerometerEntity);
+            _socket.OutputStream.Write(str.ToArray(), 0, (int)str.Length);
         }
 
         public void StartDiscovery()

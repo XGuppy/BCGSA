@@ -12,6 +12,7 @@ using System.Linq;
 using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Android.Content.PM;
+using Android.Bluetooth;
 
 namespace BCGSA.Android
 {
@@ -77,6 +78,8 @@ namespace BCGSA.Android
             SetContentView(Resource.Layout.activity_main);
             CheckPermissions();
 
+            RegisterReceiver(_bluetoothSender, new IntentFilter(BluetoothDevice.ActionFound));
+
             var spinner = FindViewById<Spinner>(Resource.Id.select_device);
             SelectDevice(spinner);
 
@@ -96,7 +99,9 @@ namespace BCGSA.Android
                 _bluetoothSender.Connect(device);
 
                 DataSender.Sended += _bluetoothSender.SendData;
+                _bluetoothSender.StartDiscovery();
             };
+            
         }
 
         /// <summary>

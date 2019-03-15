@@ -19,8 +19,11 @@ namespace BCGSA.Android
     {
         private BluetoothAdapter _adapter;
         private BluetoothSocket _socket;
-        private static ArrayAdapter<KeyValuePair<string, string>> _btDevices;
+        private static ArrayAdapter<string> _uiDev;
         private static BinaryFormatter _formatter = new BinaryFormatter();
+
+
+        public Dictionary<string, BluetoothDevice> ScanResult { get; } = new Dictionary<string, BluetoothDevice>();
 
         public bool IsConnected
         {
@@ -38,6 +41,7 @@ namespace BCGSA.Android
                 if (!_adapter.Enable())
                     throw new Exception("Bluetooth failed to turn on");
             }
+
         }
 
         public async void Connect(BluetoothDevice device)
@@ -72,10 +76,16 @@ namespace BCGSA.Android
             _adapter.StartDiscovery();
         }
 
-        public void InitAdapter(Context ctx, int resourceID)
+        public void InitAdapter(Context ctx, int resourceID, Spinner spin)
         {
-            _btDevices = new ArrayAdapter<KeyValuePair<string, string>>(ctx, resourceID);
+
+            _uiDev = new ArrayAdapter<string>(ctx, global::Android.Resource.Layout.SimpleSpinnerItem);
+            _uiDev.Add("Select Device");
+            _uiDev.SetDropDownViewResource(global::Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spin.Adapter = _uiDev;
+            
         }
+
 
         public override void OnReceive(Context context, Intent intent)
         {
@@ -90,7 +100,12 @@ namespace BCGSA.Android
             
             if (device.BondState != Bond.Bonded)
             {
-                _btDevices.Add(new KeyValuePair<string, string>(device.Name, device.Address));
+                if (!ScanResult.ContainsKey(device.Name))
+                {
+                    _uiDev.Add(device.Name);
+                    var i = _uiDev.Count;
+                    ScanResult.Add(device.Name, device);
+                }
             }
         }
     }

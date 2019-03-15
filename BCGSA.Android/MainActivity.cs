@@ -59,26 +59,20 @@ namespace BCGSA.Android
 
             var spinner = FindViewById<Spinner>(Resource.Id.select_device);
 
-            _bluetoothSender.InitAdapter(this, Resource.Id.select_device);
+            _bluetoothSender.InitAdapter(this, Resource.Layout.activity_main, spinner);
 
             _bluetoothSender.StartDiscovery();
 
             spinner.ItemSelected += (o, e) => {
 
                 var name = (string)(o as Spinner).SelectedItem;
-
-                var device = (from devs in _bluetoothSender.Scan()
-                              where devs.Name == name
-                              select devs).FirstOrDefault();
-
-                if (device == null)
+                if (_bluetoothSender.ScanResult.ContainsKey(name))
                 {
-                    throw new Exception("Device Not Found");
+                    _bluetoothSender.CreateBond(_bluetoothSender.ScanResult[name]);
+                    _bluetoothSender.Connect(_bluetoothSender.ScanResult[name]);
+
+                    DataSender.Sended += _bluetoothSender.SendData;
                 }
-
-                _bluetoothSender.Connect(device);
-
-                DataSender.Sended += _bluetoothSender.SendData;
             };
         }
 

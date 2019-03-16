@@ -31,7 +31,6 @@ namespace BCGSA
         private static void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
         {
             Data.Gyroscope = AccelerometerEntity.FromVector3(e.Reading.AngularVelocity);
-            Sended?.Invoke(Data);
         }
 
         private static void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)

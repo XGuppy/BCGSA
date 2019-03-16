@@ -60,9 +60,14 @@ namespace BCGSA.Android
 
         public void SendData(AccelerometerEntity accelerometerEntity)
         {
-            MemoryStream str = new MemoryStream();
-            _formatter.Serialize(str, accelerometerEntity);
-            _socket.OutputStream.Write(str.ToArray(), 0, (int)str.Length);
+            if(IsConnected)
+            {
+                _formatter.Serialize(_socket.OutputStream, accelerometerEntity);
+            }
+            else
+            {
+                throw new Exception("Device lost connection");
+            }
         }
 
         public void StartDiscovery()

@@ -65,19 +65,22 @@ namespace BCGSA.Android
 
             _bluetoothSender.StartDiscovery();
 
-            spinner.ItemSelected += (o, e) => {
+            spinner.ItemSelected += async (o, e) => {
 
                 try
                 {
                     var name = (string)(o as Spinner).SelectedItem;
                     if (_bluetoothSender.ScanResult.ContainsKey(name))
                     {
-                        while (_bluetoothSender.BondState(_bluetoothSender.ScanResult[name]) != Bond.Bonded)
-                        {
-                            _bluetoothSender.CreateBond(_bluetoothSender.ScanResult[name]);
-                        }
-                        _bluetoothSender.Connect(_bluetoothSender.ScanResult[name]);
-                        _sender.Sended += _bluetoothSender.SendData;
+                        await Task.Run(() =>
+                       {
+                           while (_bluetoothSender.BondState(_bluetoothSender.ScanResult[name]) != Bond.Bonded)
+                           {
+                               _bluetoothSender.CreateBond(_bluetoothSender.ScanResult[name]);
+                           }
+                           _bluetoothSender.Connect(_bluetoothSender.ScanResult[name]);
+                           _sender.Sended += _bluetoothSender.SendData;
+                       });
                     }
                 }
                 catch (Exception ex)

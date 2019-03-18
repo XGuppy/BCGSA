@@ -26,10 +26,7 @@ namespace BCGSA.Android
 
         public Dictionary<string, BluetoothDevice> ScanResult { get; } = new Dictionary<string, BluetoothDevice>();
 
-        public bool IsConnected
-        {
-            get => _socket.IsConnected;
-        }
+        private bool IsConnected => _socket.IsConnected;
 
         public BluetoothSender()
         {
@@ -75,7 +72,7 @@ namespace BCGSA.Android
             _adapter.StartDiscovery();
         }
 
-        public void InitAdapter(Context ctx, int resourceID, Spinner spin)
+        public void InitAdapter(Context ctx, int resourceId, Spinner spin)
         {
 
             _uiDev = new ArrayAdapter<string>(ctx, global::Android.Resource.Layout.SimpleSpinnerItem);
@@ -100,7 +97,6 @@ namespace BCGSA.Android
                 if (!ScanResult.ContainsKey(device.Name))
                 {
                     _uiDev.Add(device.Name);
-                    var i = _uiDev.Count;
                     ScanResult.Add(device.Name, device);
                 }
         }

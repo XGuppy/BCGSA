@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BCGSA
 {
-    [Serializable()]
+    [Serializable]
     public class AccelerometerEntity
     {
         /// <summary>

@@ -1,13 +1,10 @@
-﻿using BCGSA;
-using InTheHand.Net.Sockets;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BCGSA;
+using InTheHand.Net.Sockets;
 
 namespace TestGameAPP
 {
@@ -17,9 +14,7 @@ namespace TestGameAPP
         private Action<AccelerometerEntity> _responseAction;
         private BluetoothListener _listener;
         private CancellationTokenSource _cancelSource;
-        private bool _wasStarted;
-        private string _status;
-        private static BinaryFormatter formatter = new BinaryFormatter();
+        private static readonly BinaryFormatter _formatter = new BinaryFormatter();
         /// <summary>  
         /// Initializes a new instance of the <see cref="ReceiverBluetoothService" /> class.  
         /// </summary>  
@@ -78,34 +73,26 @@ namespace TestGameAPP
         /// </param>  
         private void Listener(CancellationTokenSource token)
         {
-            try
+            using (var client = _listener.AcceptBluetoothClient())
             {
-                using (var client = _listener.AcceptBluetoothClient())
+                while (true)
                 {
-                    while (true)
+                    if (token.IsCancellationRequested)
                     {
-                        if (token.IsCancellationRequested)
-                        {
-                            return;
-                        }
-                        try
-                        {
-                            var content = (AccelerometerEntity)formatter.Deserialize(client.GetStream());
-                            client.GetStream().Flush();
-                            _responseAction(content);
-                        }
-                        catch (IOException)
-                        {
-                            client.Close();
-                            break;
-                        }
+                        return;
+                    }
+                    try
+                    {
+                        var content = (AccelerometerEntity)_formatter.Deserialize(client.GetStream());
+                        client.GetStream().Flush();
+                        _responseAction(content);
+                    }
+                    catch (IOException)
+                    {
+                        client.Close();
+                        break;
                     }
                 }
-            }
-            catch (Exception exception)
-            {
-                // todo handle the exception  
-                // for the sample it will be ignored  
             }
         }
 

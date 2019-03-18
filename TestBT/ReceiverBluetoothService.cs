@@ -17,9 +17,7 @@ namespace TestBT
         private Action<string> _responseAction;
         private BluetoothListener _listener;
         private CancellationTokenSource _cancelSource;
-        private bool _wasStarted;
-        private string _status;
-        private static BinaryFormatter formatter = new BinaryFormatter();
+        private static readonly BinaryFormatter Formatter = new BinaryFormatter();
         /// <summary>  
         /// Initializes a new instance of the <see cref="ReceiverBluetoothService" /> class.  
         /// </summary>  
@@ -78,36 +76,28 @@ namespace TestBT
         /// </param>  
         private void Listener(CancellationTokenSource token)
         {
-        try
-        {
             using (var client = _listener.AcceptBluetoothClient())
             {
                 while (true)
                 {
-                        if (token.IsCancellationRequested)
-                        {
-                            return;
-                        }
-                        try
-                        {
-                            var content = (AccelerometerEntity)formatter.Deserialize(client.GetStream());
-                            client.GetStream().Flush();
-                            _responseAction($"Gyro: X:{content.Gyroscope.X} Y:{content.Gyroscope.Y} Z:{content.Gyroscope.Z} " +
-                                            $"\n Accel: X:{content.Accelerometer.X} Y:{content.Accelerometer.Y} Z:{content.Accelerometer.Z}");
-                        }
-                        catch (IOException)
-                        {
-                            client.Close();
-                            break;
-                        }
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+                    try
+                    {
+                        var content = (AccelerometerEntity)Formatter.Deserialize(client.GetStream());
+                        client.GetStream().Flush();
+                        _responseAction($"Gyro: X:{content.Gyroscope.X} Y:{content.Gyroscope.Y} Z:{content.Gyroscope.Z} " +
+                                        $"\n Accel: X:{content.Accelerometer.X} Y:{content.Accelerometer.Y} Z:{content.Accelerometer.Z}");
+                    }
+                    catch (IOException)
+                    {
+                        client.Close();
+                        break;
                     }
                 }
-        }
-        catch (Exception exception)
-        {
-            // todo handle the exception  
-            // for the sample it will be ignored  
-        }
+            }
         }
 
         /// <summary>  

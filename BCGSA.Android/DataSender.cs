@@ -3,6 +3,7 @@ using BCGSA.ConfigMaster;
 using Android.Hardware;
 using System.Numerics;
 using Android.Runtime;
+using System.Threading.Tasks;
 
 namespace BCGSA
 {
@@ -11,7 +12,7 @@ namespace BCGSA
         /// <summary>
         /// Send an accelerometer data
         /// </summary>
-        private AccelerometerEntity _data { get; set; } = new AccelerometerEntity(default(Vector3), default(Vector3));
+        private AccelerometerEntity Data { get; set; } = new AccelerometerEntity(default(Vector3), default(Vector3));
         public DataSender(SensorManager sensorManager)
         {
             var manager = ConfManager.GetManager;
@@ -27,15 +28,16 @@ namespace BCGSA
 
         public void OnSensorChanged(SensorEvent e)
         {
-            if (e.Sensor.Type == SensorType.LinearAcceleration)
+            switch (e.Sensor.Type)
             {
-                _data.Accelerometer = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
+                case SensorType.LinearAcceleration:
+                    Data.Accelerometer = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
+                    Sended?.Invoke(Data);
+                    break;
+                case SensorType.Gyroscope:
+                    Data.Gyroscope = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
+                    break;
             }
-            else if (e.Sensor.Type == SensorType.Gyroscope)
-            {
-                _data.Gyroscope = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
-            }
-            Sended?.Invoke(_data);
         }
 
         public delegate void SendAccelerometerHandler(AccelerometerEntity e);

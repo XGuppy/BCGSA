@@ -16,8 +16,8 @@ namespace BCGSA
         {
             var manager = ConfManager.GetManager;
             Enum.TryParse(manager.ConnectMod, out SensorDelay speed);
-            var allSensor = sensorManager.GetDefaultSensor(SensorType.All);
-            sensorManager.RegisterListener(this, allSensor, speed);
+            sensorManager.RegisterListener(this, sensorManager.GetDefaultSensor(SensorType.Gyroscope), speed);
+            sensorManager.RegisterListener(this, sensorManager.GetDefaultSensor(SensorType.LinearAcceleration), speed);
         }
 
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)

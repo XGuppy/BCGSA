@@ -67,15 +67,22 @@ namespace BCGSA.Android
 
             spinner.ItemSelected += (o, e) => {
 
-                var name = (string)(o as Spinner).SelectedItem;
-                if (_bluetoothSender.ScanResult.ContainsKey(name))
+                try
                 {
-                    while(_bluetoothSender.BondState(_bluetoothSender.ScanResult[name]) != Bond.Bonded)
+                    var name = (string)(o as Spinner).SelectedItem;
+                    if (_bluetoothSender.ScanResult.ContainsKey(name))
                     {
-                        _bluetoothSender.CreateBond(_bluetoothSender.ScanResult[name]);
+                        while (_bluetoothSender.BondState(_bluetoothSender.ScanResult[name]) != Bond.Bonded)
+                        {
+                            _bluetoothSender.CreateBond(_bluetoothSender.ScanResult[name]);
+                        }
+                        _bluetoothSender.Connect(_bluetoothSender.ScanResult[name]);
+                        _sender.Sended += _bluetoothSender.SendData;
                     }
-                    _bluetoothSender.Connect(_bluetoothSender.ScanResult[name]);
-                    _sender.Sended += _bluetoothSender.SendData;
+                }
+                catch (Exception ex)
+                {
+                    Toast.MakeText(this, ex.Message, ToastLength.Long);
                 }
             };
         }

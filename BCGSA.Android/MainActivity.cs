@@ -82,7 +82,7 @@ namespace BCGSA.Android
                 }
                 catch (Exception ex)
                 {
-                    Toast.MakeText(this, ex.Message, ToastLength.Long);
+                    Toast.MakeText(this, ex.Message, ToastLength.Long).Show();
                 }
             };
         }

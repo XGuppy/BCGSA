@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using BCGSA.ConfigMaster;
-using Xamarin.Essentials;
 using Android.Hardware;
 using System.Numerics;
 using Android.Runtime;
@@ -22,10 +16,8 @@ namespace BCGSA
         {
             var manager = ConfManager.GetManager;
             Enum.TryParse(manager.ConnectMod, out SensorDelay speed);
-            var linearSensor = sensorManager.GetDefaultSensor(SensorType.LinearAcceleration);
-            var gyroSensor = sensorManager.GetDefaultSensor(SensorType.Gyroscope);
-            sensorManager.RegisterListener(this, gyroSensor, speed);
-            sensorManager.RegisterListener(this, linearSensor, speed);
+            var allSensor = sensorManager.GetDefaultSensor(SensorType.All);
+            sensorManager.RegisterListener(this, allSensor, speed);
         }
 
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)

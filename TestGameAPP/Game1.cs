@@ -69,11 +69,10 @@ namespace TestGameAPP
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
-           /* worldMatrix *= Matrix.CreateTranslation((accelerometerEntity.Accelerometer.X * 9.8f) * delta, 0, 0);
-            worldMatrix *= Matrix.CreateTranslation(0, (accelerometerEntity.Accelerometer.X * 9.8f) * delta, 0);
-            if((accelerometerEntity.Accelerometer.Z) > 0)
-                worldMatrix *= Matrix.CreateTranslation(0, 0, (accelerometerEntity.Accelerometer.X * 9.8f - 9.8f) * delta);
-            //worldMatrix *= Matrix.CreateRotationY(MathHelper.ToRadians(1));*/
+            worldMatrix *= Matrix.CreateTranslation(accelerometerEntity.Accelerometer.X * delta, 0, 0);
+            worldMatrix *= Matrix.CreateTranslation(0, accelerometerEntity.Accelerometer.Y * delta, 0);
+            worldMatrix *= Matrix.CreateTranslation(0, 0, accelerometerEntity.Accelerometer.Z * delta);
+            //worldMatrix *= Matrix.CreateRotationY(MathHelper.ToRadians(1));
 
             worldMatrix *= Matrix.CreateRotationX(accelerometerEntity.Gyroscope.X * delta);
             worldMatrix *= Matrix.CreateRotationY(accelerometerEntity.Gyroscope.Y * delta);

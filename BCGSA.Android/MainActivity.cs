@@ -14,13 +14,15 @@ using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Bluetooth;
 using System.Threading;
+using Android.Hardware;
+
 namespace BCGSA.Android
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
         private BluetoothSender _bluetoothSender = new BluetoothSender();
-
+        private DataSender _sender;
         
         private void CheckPermissions()
         {
@@ -54,7 +56,7 @@ namespace BCGSA.Android
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             CheckPermissions();
-
+            _sender = new DataSender((SensorManager)GetSystemService(SensorService));
             RegisterReceiver(_bluetoothSender, new IntentFilter(BluetoothDevice.ActionFound));
 
             var spinner = FindViewById<Spinner>(Resource.Id.select_device);
@@ -73,8 +75,7 @@ namespace BCGSA.Android
                         _bluetoothSender.CreateBond(_bluetoothSender.ScanResult[name]);
                     }
                     _bluetoothSender.Connect(_bluetoothSender.ScanResult[name]);
-                    DataSender.Initialize();
-                    DataSender.Sended += _bluetoothSender.SendData;
+                    _sender.Sended += _bluetoothSender.SendData;
                 }
             };
         }

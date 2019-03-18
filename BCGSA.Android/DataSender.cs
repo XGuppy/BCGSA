@@ -6,40 +6,47 @@ using System.Threading.Tasks;
 
 using BCGSA.ConfigMaster;
 using Xamarin.Essentials;
+using Android.Hardware;
 using System.Numerics;
+using Android.Runtime;
 
 namespace BCGSA
 {
-    public static class DataSender
+    public class DataSender: Java.Lang.Object, ISensorEventListener
     {
         /// <summary>
         /// Send an accelerometer data
         /// </summary>
-        public static AccelerometerEntity Data { get; private set; } = new AccelerometerEntity(default(Vector3), default(Vector3));
-
-        public static void Initialize()
+        private AccelerometerEntity _data { get; set; } = new AccelerometerEntity(default(Vector3), default(Vector3));
+        public DataSender(SensorManager sensorManager)
         {
             var manager = ConfManager.GetManager;
-            Enum.TryParse(manager.ConnectMod, out SensorSpeed speed);
-            Accelerometer.Start(speed);
-            Gyroscope.Start(speed);
-
-            Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
-            Gyroscope.ReadingChanged += Gyroscope_ReadingChanged;
+            Enum.TryParse(manager.ConnectMod, out SensorDelay speed);
+            var linearSensor = sensorManager.GetDefaultSensor(SensorType.LinearAcceleration);
+            var gyroSensor = sensorManager.GetDefaultSensor(SensorType.Gyroscope);
+            sensorManager.RegisterListener(this, gyroSensor, speed);
+            sensorManager.RegisterListener(this, linearSensor, speed);
         }
 
-        private static void Gyroscope_ReadingChanged(object sender, GyroscopeChangedEventArgs e)
+        public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
         {
-            Data.Gyroscope = AccelerometerEntity.FromVector3(e.Reading.AngularVelocity);
+            
         }
 
-        private static void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        public void OnSensorChanged(SensorEvent e)
         {
-            Data.Accelerometer = AccelerometerEntity.FromVector3(e.Reading.Acceleration);
-            Sended?.Invoke(Data);
+            if (e.Sensor.Type == SensorType.LinearAcceleration)
+            {
+                _data.Accelerometer = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
+            }
+            else if (e.Sensor.Type == SensorType.Gyroscope)
+            {
+                _data.Gyroscope = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
+            }
+            Sended?.Invoke(_data);
         }
 
         public delegate void SendAccelerometerHandler(AccelerometerEntity e);
-        public static event SendAccelerometerHandler Sended; // Sender event
+        public event SendAccelerometerHandler Sended; // Sender event
     }
 }

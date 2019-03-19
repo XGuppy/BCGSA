@@ -23,6 +23,8 @@ namespace BCGSA.Android
         private static ArrayAdapter<string> _uiDev;
         private static readonly BinaryFormatter Formatter = new BinaryFormatter();
 
+        private Context _ctx;
+
 
         public Dictionary<string, BluetoothDevice> ScanResult { get; } = new Dictionary<string, BluetoothDevice>();
 
@@ -65,8 +67,10 @@ namespace BCGSA.Android
                 }
                 catch (Exception e)
                 {
-                    //TODO: В UI кинуть exception
-                    Console.WriteLine(e);
+                    //TODO: CHECK work (maybe need another cast)
+                    (_ctx as Activity).RunOnUiThread(() => {
+                        Toast.MakeText(_ctx, e.Message, ToastLength.Long);
+                    });
                     throw;
                 }
             }
@@ -83,7 +87,7 @@ namespace BCGSA.Android
 
         public void InitAdapter(Context ctx, int resourceId, Spinner spin)
         {
-
+            _ctx = ctx;
             _uiDev = new ArrayAdapter<string>(ctx, global::Android.Resource.Layout.SimpleSpinnerItem);
             _uiDev.Add("Select Device");
             _uiDev.SetDropDownViewResource(global::Android.Resource.Layout.SimpleSpinnerDropDownItem);

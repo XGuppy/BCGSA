@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BCGSA;
@@ -68,14 +69,14 @@ namespace TestGameAPP
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
-            _worldMatrix *= Matrix.CreateTranslation(_accelerometerEntity.Accelerometer.X * delta, 0, 0);
-            _worldMatrix *= Matrix.CreateTranslation(0, _accelerometerEntity.Accelerometer.Y * delta, 0);
-            _worldMatrix *= Matrix.CreateTranslation(0, 0, _accelerometerEntity.Accelerometer.Z * delta);
+            _worldMatrix *= Matrix.CreateTranslation((float)Math.Round(_accelerometerEntity.Accelerometer.X * delta, 1), 0, 0);
+            _worldMatrix *= Matrix.CreateTranslation(0, (float)Math.Round(_accelerometerEntity.Accelerometer.Y * delta, 1), 0);
+            _worldMatrix *= Matrix.CreateTranslation(0, 0, (float)Math.Round(_accelerometerEntity.Accelerometer.Z * delta, 1));
             //worldMatrix *= Matrix.CreateRotationY(MathHelper.ToRadians(1));
 
-            _worldMatrix *= Matrix.CreateRotationX(_accelerometerEntity.Gyroscope.X * delta);
+            /*_worldMatrix *= Matrix.CreateRotationX(_accelerometerEntity.Gyroscope.X * delta);
             _worldMatrix *= Matrix.CreateRotationY(_accelerometerEntity.Gyroscope.Y * delta);
-            _worldMatrix *= Matrix.CreateRotationZ(_accelerometerEntity.Gyroscope.Z * delta);
+            _worldMatrix *= Matrix.CreateRotationZ(_accelerometerEntity.Gyroscope.Z * delta);*/
 
             base.Update(gameTime);
         }

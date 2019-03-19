@@ -18,10 +18,10 @@ namespace BCGSA.Android
 {
     class BluetoothSender: BroadcastReceiver
     {
-        private BluetoothAdapter _adapter;
+        private readonly BluetoothAdapter _adapter;
         private BluetoothSocket _socket;
         private static ArrayAdapter<string> _uiDev;
-        private static BinaryFormatter _formatter = new BinaryFormatter();
+        private static readonly BinaryFormatter Formatter = new BinaryFormatter();
 
 
         public Dictionary<string, BluetoothDevice> ScanResult { get; } = new Dictionary<string, BluetoothDevice>();
@@ -59,7 +59,16 @@ namespace BCGSA.Android
         {
             if(IsConnected)
             {
-                _formatter.Serialize(_socket.OutputStream, accelerometerEntity);
+                try
+                {
+                    Formatter.Serialize(_socket.OutputStream, accelerometerEntity);
+                }
+                catch (Exception e)
+                {
+                    //TODO: В UI кинуть exception
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
             else
             {

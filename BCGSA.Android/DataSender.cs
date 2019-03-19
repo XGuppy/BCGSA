@@ -32,12 +32,12 @@ namespace BCGSA
             {
                 case SensorType.LinearAcceleration:
                     Data.Accelerometer = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
-                    Sended?.Invoke(Data);
                     break;
                 case SensorType.Gyroscope:
                     Data.Gyroscope = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
                     break;
             }
+            Sended?.Invoke(Data);
         }
 
         public delegate void SendAccelerometerHandler(AccelerometerEntity e);

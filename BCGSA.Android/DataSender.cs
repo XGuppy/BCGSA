@@ -37,10 +37,10 @@ namespace BCGSA
                     Data.Gyroscope = AccelerometerEntity.FromVector3(new Vector3(e.Values[0], e.Values[1], e.Values[2]));
                     break;
             }
-            Sended?.Invoke(Data);
+            Sended?.Invoke(Sended, Data);
         }
 
-        public delegate void SendAccelerometerHandler(AccelerometerEntity e);
+        public delegate void SendAccelerometerHandler(SendAccelerometerHandler dataSendEvent, AccelerometerEntity e);
         public event SendAccelerometerHandler Sended; // Sender event
     }
 }

@@ -57,7 +57,7 @@ namespace BCGSA.Android
         public Bond BondState(BluetoothDevice device) =>
             device.BondState;
 
-        public void SendData(AccelerometerEntity accelerometerEntity)
+        public void SendData(DataSender.SendAccelerometerHandler dataSendEvent,AccelerometerEntity accelerometerEntity)
         {
             if(IsConnected)
             {
@@ -67,11 +67,9 @@ namespace BCGSA.Android
                 }
                 catch (Exception e)
                 {
-                    //TODO: CHECK work (maybe need another cast)
-                    (_ctx as Activity).RunOnUiThread(() => {
-                        Toast.MakeText(_ctx, e.Message, ToastLength.Long);
+                    (_ctx as Activity)?.RunOnUiThread(() => {
+                        Toast.MakeText(_ctx, e.Message, ToastLength.Long).Show();
                     });
-                    throw;
                 }
             }
             else

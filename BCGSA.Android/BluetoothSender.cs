@@ -57,7 +57,7 @@ namespace BCGSA.Android
         public Bond BondState(BluetoothDevice device) =>
             device.BondState;
 
-        public void SendData(DataSender.SendAccelerometerHandler dataSendEvent,AccelerometerEntity accelerometerEntity)
+        public void SendData(AccelerometerEntity accelerometerEntity)
         {
             if(IsConnected)
             {

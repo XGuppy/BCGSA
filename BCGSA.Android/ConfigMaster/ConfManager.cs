@@ -1,15 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
+using Xamarin.Essentials;
 using System.Collections.Generic;
 using System.Linq;
-using Android.Hardware;
 using System.IO;
 namespace BCGSA.ConfigMaster
 {
     public sealed class ConfManager
     {
         private static readonly string ConfigFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "conf.json");
-        private static List<string> _listModes = Enum.GetNames(typeof(SensorDelay)).ToList();
+        private static List<string> _listModes = Enum.GetNames(typeof(SensorSpeed)).ToList();
 
         private static readonly ConfManager Instance = new ConfManager();
         private Settings _settings;

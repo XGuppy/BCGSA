@@ -61,6 +61,7 @@
     <Compile Include="ConfigMaster\ParseBoolString.cs" />
     <Compile Include="ConfigMaster\Serialize.cs" />
     <Compile Include="ConfigMaster\Settings.cs" />
+    <Compile Include="DataSender.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

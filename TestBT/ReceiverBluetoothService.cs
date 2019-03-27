@@ -88,7 +88,8 @@ namespace TestBT
                     {
                         var content = (AccelerometerEntity)Formatter.Deserialize(client.GetStream());
                         client.GetStream().Flush();
-                        _responseAction($"\n Accel: X:{content.Accelerometer.X} Y:{content.Accelerometer.Y} Z:{content.Accelerometer.Z}");
+                        _responseAction($"\n Accel: X:{content.Accelerometer.X} Y:{content.Accelerometer.Y} Z:{content.Accelerometer.Z}" +
+                                        $" Gyro: X:{content.Gyroscope.X} Y:{content.Gyroscope.Y} Z:{content.Gyroscope.Z}");
                     }
                     catch (IOException)
                     {

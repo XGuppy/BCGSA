@@ -59,22 +59,23 @@ namespace BCGSA.Android
 
         public void SendData(AccelerometerEntity accelerometerEntity)
         {
-            if(IsConnected)
+            try
             {
-                try
+                if(IsConnected)
                 {
-                    Formatter.Serialize(_socket.OutputStream, accelerometerEntity);
+                    
+                        Formatter.Serialize(_socket.OutputStream, accelerometerEntity);
                 }
-                catch (Exception e)
+                else
                 {
-                    (_ctx as Activity)?.RunOnUiThread(() => {
-                        Toast.MakeText(_ctx, e.Message, ToastLength.Long).Show();
-                    });
+                    throw new Exception("Device lost connection");
                 }
             }
-            else
+            catch (Exception e)
             {
-                throw new Exception("Device lost connection");
+                (_ctx as Activity)?.RunOnUiThread(() => {
+                    Toast.MakeText(_ctx, e.Message, ToastLength.Long).Show();
+                });
             }
         }
 
@@ -104,12 +105,15 @@ namespace BCGSA.Android
             }
 
             var device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
-            
+
+            if (device.Name != null)
+            {
                 if (!ScanResult.ContainsKey(device.Name))
                 {
                     _uiDev.Add(device.Name);
                     ScanResult.Add(device.Name, device);
                 }
+            }
         }
     }
 }

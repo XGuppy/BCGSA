@@ -1,5 +1,6 @@
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using BCGSA.ConfigMaster;
 using Xamarin.Essentials;
 
@@ -8,7 +9,7 @@ namespace BCGSA.Android
     public class DataSender
     {
         private AccelerometerEntity Data { get; set; } = new AccelerometerEntity(default(Vector3), default(Vector3));
-        private Vector3 _bufVector;
+        private Vector4 _bufVector;
         private SensorSpeed _speed;
         
         public DataSender()
@@ -18,15 +19,19 @@ namespace BCGSA.Android
             Accelerometer.ReadingChanged += AccelerometerOnReadingChanged;
         }
 
-        private void AccelerometerOnReadingChanged(object sender, AccelerometerChangedEventArgs e) =>
-            Data.Accelerometer = new Vector3S(e.Reading.Acceleration.X - _bufVector.X * 9.81f, 
-                e.Reading.Acceleration.Y - _bufVector.Y * 9.81f, e.Reading.Acceleration.Z - _bufVector.Z * 9.81f);
+        private void AccelerometerOnReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        {
+            Data.Accelerometer = new Vector3S(e.Reading.Acceleration.X - _bufVector.X / _bufVector.W,
+                e.Reading.Acceleration.Y - _bufVector.Y / _bufVector.W, e.Reading.Acceleration.Z - _bufVector.Z / _bufVector.W);
+            Sended?.Invoke(Data);
+        }
 
         private void OrientationSensorOnReadingChanged(object sender, OrientationSensorChangedEventArgs e)
         {
             _bufVector.X = e.Reading.Orientation.X;
             _bufVector.Y = e.Reading.Orientation.Y;
             _bufVector.Z = e.Reading.Orientation.Z;
+            _bufVector.W = e.Reading.Orientation.W;
         }
 
         private void GyroscopeOnReadingChanged(object sender, GyroscopeChangedEventArgs e)
@@ -40,17 +45,17 @@ namespace BCGSA.Android
         public void StartReading()
         {
             var manager = ConfManager.GetManager;
-            Enum.TryParse(manager.ConnectMod, out SensorSpeed _speed);
+            Enum.TryParse(manager.ConnectMod, out _speed);
+            Accelerometer.Start(_speed);
             Gyroscope.Start(_speed);
             OrientationSensor.Start(_speed);
-            Accelerometer.Start(_speed);
         }
         
         public void StopReading()
         {
+            Accelerometer.Stop();
             Gyroscope.Stop();
             OrientationSensor.Stop();
-            Accelerometer.Stop();
         }
         
         

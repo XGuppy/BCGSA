@@ -50,6 +50,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
@@ -107,9 +108,6 @@
       <Version>12.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Essentials">
-      <Version>1.0.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Menu\app_menu.xml" />

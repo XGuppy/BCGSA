@@ -73,25 +73,29 @@ namespace TestGameAPP
         /// </param>  
         private void Listener(CancellationTokenSource token)
         {
-            using (var client = _listener.AcceptBluetoothClient())
+            while (true)
             {
-                while (true)
+                using (var client = _listener.AcceptBluetoothClient())
                 {
-                    if (token.IsCancellationRequested)
-                    {
-                        return;
-                    }
-                    try
-                    {
-                        var content = (AccelerometerEntity)_formatter.Deserialize(client.GetStream());
-                        client.GetStream().Flush();
-                        _responseAction(content);
-                    }
-                    catch (IOException)
-                    {
-                        client.Close();
-                        break;
-                    }
+                    
+                        if (token.IsCancellationRequested)
+                        {
+                            return;
+                        }
+
+                        using (var sr = client.GetStream())
+                        {
+                            try
+                            {
+                                var content = (AccelerometerEntity)_formatter.Deserialize(sr);
+                                _responseAction(content);
+                            }
+                            catch (IOException)
+                            {
+                                client.Close();
+                                break;
+                            }
+                        }
                 }
             }
         }

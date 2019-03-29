@@ -13,6 +13,7 @@ using Android.Bluetooth;
 using Java.Util;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace BCGSA.Android
 {
@@ -21,6 +22,7 @@ namespace BCGSA.Android
         private readonly BluetoothAdapter _adapter;
         private BluetoothSocket _socket;
         private static ArrayAdapter<string> _uiDev;
+        private static BluetoothDevice _btDevice;
         private static readonly BinaryFormatter Formatter = new BinaryFormatter();
 
         private Context _ctx;
@@ -46,9 +48,10 @@ namespace BCGSA.Android
 
         public void Connect(BluetoothDevice device)
         {
-            _socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("4d89187e-476a-11e9-b210-d663bd873d93"));
+            
             _adapter.CancelDiscovery();
-            _socket.Connect();
+            _btDevice = device;
+            
         }
 
         public void CreateBond(BluetoothDevice device) =>
@@ -57,26 +60,34 @@ namespace BCGSA.Android
         public Bond BondState(BluetoothDevice device) =>
             device.BondState;
 
-        public void SendData(AccelerometerEntity accelerometerEntity)
+        public async void SendData(AccelerometerEntity accelerometerEntity)
         {
-            try
+            await Task.Run(() =>
             {
-                if(IsConnected)
+                try
                 {
-                    
-                        Formatter.Serialize(_socket.OutputStream, accelerometerEntity);
+                    if (!_socket.IsConnected)
+                    {
+                        _socket = _btDevice.CreateRfcommSocketToServiceRecord(UUID.FromString("4d89187e-476a-11e9-b210-d663bd873d93"));
+                        _socket.Connect();
+                        if(!_socket.IsConnected)
+                            throw new Exception("Device lost connection");
+                    }
+                    else
+                    {
+                        using (var sw = _socket.OutputStream)
+                        {
+                            Formatter.Serialize(sw, accelerometerEntity);
+                        }    
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    throw new Exception("Device lost connection");
+                    (_ctx as Activity)?.RunOnUiThread(() => {
+                        Toast.MakeText(_ctx, e.Message, ToastLength.Long).Show();
+                    });
                 }
-            }
-            catch (Exception e)
-            {
-                (_ctx as Activity)?.RunOnUiThread(() => {
-                    Toast.MakeText(_ctx, e.Message, ToastLength.Long).Show();
-                });
-            }
+            });
         }
 
         public void StartDiscovery()
@@ -94,8 +105,7 @@ namespace BCGSA.Android
             
         }
 
-
-        public override void OnReceive(Context context, Intent intent)
+        public  override void OnReceive(Context context, Intent intent)
         {
             var action = intent.Action;
 
@@ -104,7 +114,7 @@ namespace BCGSA.Android
                 return;
             }
 
-            var device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
+            var device = (BluetoothDevice) intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
 
             if (device.Name != null)
             {

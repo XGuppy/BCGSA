@@ -12,9 +12,9 @@ namespace BCGSA.Android
         private SensorManager _manager;
         private Sensor _accelerometer;
         private Sensor _gyroscope;
-        public DataSender()
+        public DataSender(SensorManager manager)
         {
-            _manager = (SensorManager)GetSystemService(SensorService);
+            _manager = manager;
             _accelerometer = _manager.GetDefaultSensor(SensorType.LinearAcceleration);
             _gyroscope = _manager.GetDefaultSensor(SensorType.Gyroscope);
             

@@ -10,6 +10,7 @@ using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Bluetooth;
+using Android.Hardware;
 
 namespace BCGSA.Android
 {
@@ -18,7 +19,7 @@ namespace BCGSA.Android
     {
 
         private BluetoothSender _bluetoothSender = new BluetoothSender();
-        private DataSender _dataSender = new DataSender();
+        private DataSender _dataSender;
         
         private void CheckPermissions()
         {
@@ -50,6 +51,7 @@ namespace BCGSA.Android
         {
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
+            _dataSender = new DataSender((SensorManager)GetSystemService(SensorService));
             SetContentView(Resource.Layout.activity_main);
             CheckPermissions();
 

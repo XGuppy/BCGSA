@@ -2,4 +2,6 @@
     <string name="app_name">BCGSA.Android</string>
     <string name="action_settings">Settings</string>
     <string name="label_spinner_text">Выберите устройство</string>
+    <string name="round_button_text_on">Connect</string>
+    <string name="round_button_text_off">Disconnect</string>
 </resources>

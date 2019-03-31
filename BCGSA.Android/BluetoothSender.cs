@@ -22,7 +22,6 @@ namespace BCGSA.Android
         private readonly BluetoothAdapter _adapter;
         private BluetoothSocket _socket;
         private static ArrayAdapter<string> _uiDev;
-        private static BluetoothDevice _btDevice;
         private static readonly BinaryFormatter Formatter = new BinaryFormatter();
 
         private Context _ctx;
@@ -48,10 +47,9 @@ namespace BCGSA.Android
 
         public void Connect(BluetoothDevice device)
         {
-            
+            _socket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("4d89187e-476a-11e9-b210-d663bd873d93"));
             _adapter.CancelDiscovery();
-            _btDevice = device;
-            
+            _socket.Connect();
         }
 
         public void CreateBond(BluetoothDevice device) =>
@@ -60,34 +58,23 @@ namespace BCGSA.Android
         public Bond BondState(BluetoothDevice device) =>
             device.BondState;
 
-        public async void SendData(AccelerometerEntity accelerometerEntity)
+        public void SendData(AccelerometerEntity accelerometerEntity)
         {
-            await Task.Run(() =>
+            try
             {
-                try
+                if (!_socket.IsConnected)
                 {
-                    if (!_socket.IsConnected)
-                    {
-                        _socket = _btDevice.CreateRfcommSocketToServiceRecord(UUID.FromString("4d89187e-476a-11e9-b210-d663bd873d93"));
-                        _socket.Connect();
-                        if(!_socket.IsConnected)
-                            throw new Exception("Device lost connection");
-                    }
-                    else
-                    {
-                        using (var sw = _socket.OutputStream)
-                        {
-                            Formatter.Serialize(sw, accelerometerEntity);
-                        }    
-                    }
+                    throw new Exception("Device lost connection");
                 }
-                catch (Exception e)
-                {
-                    (_ctx as Activity)?.RunOnUiThread(() => {
-                        Toast.MakeText(_ctx, e.Message, ToastLength.Long).Show();
-                    });
-                }
-            });
+                
+                Formatter.Serialize(_socket.OutputStream, accelerometerEntity); 
+            }
+            catch (Exception e)
+            {
+                (_ctx as Activity)?.RunOnUiThread(() => {
+                    Toast.MakeText(_ctx, e.Message, ToastLength.Long).Show();
+                });
+            }
         }
 
         public void StartDiscovery()

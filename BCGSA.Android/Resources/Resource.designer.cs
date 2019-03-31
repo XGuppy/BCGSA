@@ -2345,6 +2345,9 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f0800b5
 			public const int InversY = 2131230901;
 			
+			// aapt resource value: 0x7f0800b8
+			public const int InversZ = 2131230904;
+			
 			// aapt resource value: 0x7f080035
 			public const int META = 2131230773;
 			
@@ -2359,6 +2362,9 @@ namespace BCGSA.Android
 			
 			// aapt resource value: 0x7f0800b7
 			public const int YSwitch = 2131230903;
+			
+			// aapt resource value: 0x7f0800ba
+			public const int ZSwitch = 2131230906;
 			
 			// aapt resource value: 0x7f08009f
 			public const int action0 = 2131230879;
@@ -2393,8 +2399,8 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f0800a3
 			public const int action_divider = 2131230883;
 			
-			// aapt resource value: 0x7f0800bc
-			public const int action_exit = 2131230908;
+			// aapt resource value: 0x7f0800bf
+			public const int action_exit = 2131230911;
 			
 			// aapt resource value: 0x7f08009d
 			public const int action_image = 2131230877;
@@ -2414,8 +2420,8 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f08005c
 			public const int action_mode_close_button = 2131230812;
 			
-			// aapt resource value: 0x7f0800bb
-			public const int action_settings = 2131230907;
+			// aapt resource value: 0x7f0800be
+			public const int action_settings = 2131230910;
 			
 			// aapt resource value: 0x7f08009e
 			public const int action_text = 2131230878;
@@ -2597,6 +2603,9 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f0800b6
 			public const int inversYLabel = 2131230902;
 			
+			// aapt resource value: 0x7f0800b9
+			public const int inversZLabel = 2131230905;
+			
 			// aapt resource value: 0x7f080059
 			public const int italic = 2131230809;
 			
@@ -2621,14 +2630,14 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f080061
 			public const int list_item = 2131230817;
 			
-			// aapt resource value: 0x7f0800ba
-			public const int masked = 2131230906;
+			// aapt resource value: 0x7f0800bd
+			public const int masked = 2131230909;
 			
 			// aapt resource value: 0x7f0800a2
 			public const int media_actions = 2131230882;
 			
-			// aapt resource value: 0x7f0800b8
-			public const int message = 2131230904;
+			// aapt resource value: 0x7f0800bb
+			public const int message = 2131230907;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2888,8 +2897,8 @@ namespace BCGSA.Android
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800b9
-			public const int visible = 2131230905;
+			// aapt resource value: 0x7f0800bc
+			public const int visible = 2131230908;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;

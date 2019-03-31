@@ -33,10 +33,16 @@ namespace BCGSA.Android
 
             switchInversY.CheckedChange += (o, e) =>
                 confManager.InversY = ((Switch) o).Checked;
+            
+            var switchInversZ = FindViewById<Switch>(Resource.Id.ZSwitch);
 
+            switchInversZ.CheckedChange += (o, e) =>
+                confManager.InversZ = ((Switch) o).Checked;
+            
             switchInversX.Checked = confManager.InversX;
             switchInversY.Checked = confManager.InversY;
-
+            switchInversZ.Checked = confManager.InversZ;
+            
             var spinnerMode = FindViewById<Spinner>(Resource.Id.sensorSpinner);
 
             spinnerMode.ItemSelected += (o, e) =>

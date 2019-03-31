@@ -91,5 +91,15 @@ namespace BCGSA.ConfigMaster
                 SaveConfiguration();
             }
         }
+        
+        public bool InversZ
+        {
+            get => _settings.InversZ;
+            set
+            {
+                _settings.InversZ = value;
+                SaveConfiguration();
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace BCGSA.Android
         private SensorManager _manager;
         private Sensor _accelerometer;
         private Sensor _gyroscope;
+        private (bool, bool, bool) _invers;
         public DataSender(SensorManager manager)
         {
             _manager = manager;
@@ -22,6 +23,9 @@ namespace BCGSA.Android
         public void StartReading()
         {
             var configManager = ConfManager.GetManager;
+            _invers.Item1 = configManager.InversX;
+            _invers.Item2 = configManager.InversY;
+            _invers.Item3 = configManager.InversZ;
             Enum.TryParse(configManager.ConnectMod, out SensorDelay _speed);
             _manager.RegisterListener(this, _accelerometer, _speed);
             _manager.RegisterListener(this, _gyroscope, _speed);
@@ -41,7 +45,8 @@ namespace BCGSA.Android
                     Data.Gyroscope = new Vector3S(e.Values[0], e.Values[1], e.Values[2]);
                     break;
                 case SensorType.LinearAcceleration:
-                    Data.Accelerometer = new Vector3S(e.Values[0], e.Values[1], e.Values[2]);
+                    Data.Accelerometer = new Vector3S(_invers.Item1?e.Values[0]:-e.Values[0], 
+                        _invers.Item2?e.Values[1]:-e.Values[1], _invers.Item3?e.Values[2]:-e.Values[2]);
                     break;
             }
             Sended?.Invoke(Data);

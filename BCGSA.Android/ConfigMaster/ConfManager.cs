@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using Android.Hardware;
 
-namespace BCGSA.ConfigMaster
+namespace BCGSA.Android.ConfigMaster
 {
     public sealed class ConfManager
     {

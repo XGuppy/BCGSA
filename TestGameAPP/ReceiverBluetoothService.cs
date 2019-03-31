@@ -14,7 +14,7 @@ namespace TestGameAPP
         private Action<AccelerometerEntity> _responseAction;
         private BluetoothListener _listener;
         private CancellationTokenSource _cancelSource;
-        private static readonly BinaryFormatter _formatter = new BinaryFormatter();
+        private static readonly BinaryFormatter Formatter = new BinaryFormatter();
         /// <summary>  
         /// Initializes a new instance of the <see cref="ReceiverBluetoothService" /> class.  
         /// </summary>  
@@ -87,7 +87,7 @@ namespace TestGameAPP
                         {
                             try
                             {
-                                var content = (AccelerometerEntity)_formatter.Deserialize(sr);
+                                var content = (AccelerometerEntity)Formatter.Deserialize(sr);
                                 _responseAction(content);
                             }
                             catch (IOException)

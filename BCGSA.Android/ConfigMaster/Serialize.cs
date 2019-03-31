@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System.Globalization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Globalization;
 
-namespace BCGSA.ConfigMaster
+namespace BCGSA.Android.ConfigMaster
 {
     internal static class Serialize
     {

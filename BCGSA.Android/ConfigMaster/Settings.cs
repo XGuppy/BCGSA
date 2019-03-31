@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace BCGSA.ConfigMaster
+namespace BCGSA.Android.ConfigMaster
 {
     internal sealed class Settings
     {

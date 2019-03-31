@@ -18,7 +18,7 @@ namespace BCGSA.Android
     public class MainActivity : AppCompatActivity
     {
 
-        private BluetoothSender _bluetoothSender = new BluetoothSender();
+        private readonly BluetoothSender _bluetoothSender = new BluetoothSender();
         private DataSender _dataSender;
         
         private void CheckPermissions()
